@@ -31,6 +31,13 @@ except ImportError:
     logging.debug(msg)
     print(msg)
 
+try:
+    from scipy.stats import norm
+except ImportError:
+    msg = "cannot import scipy.stats.norm ! Some functions will not be available !"
+    logging.debug(msg)
+    print(msg)
+
 
 def getPopScores(population, fitness=False):
     """ Returns a list of population scores
@@ -81,8 +88,8 @@ def plotHistPopScore(population, fitness=False):
 
     """
     score_list = getPopScores(population, fitness)
-    n, bins, patches = pylab.hist(score_list, 50, facecolor='green', alpha=0.75, normed=1)
-    pylab.plot(bins, pylab.normpdf(bins, numpy.mean(score_list), numpy.std(score_list)), 'r--')
+    n, bins, patches = pylab.hist(score_list, 50, facecolor='green', alpha=0.75, density=1)
+    pylab.plot(bins, norm.pdf(bins, numpy.mean(score_list), numpy.std(score_list)), 'r--')
     pylab.xlabel('Score')
     pylab.ylabel('Frequency')
     pylab.grid(True)
